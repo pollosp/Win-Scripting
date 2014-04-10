@@ -3,21 +3,22 @@ Dim oAPI, oBag
 Set oAPI = CreateObject("MOM.ScriptAPI")
 Set oBag = oAPI.CreatePropertyBag()
 
-
 Set objWMI = GetObject("winmgmts:\\.\root\cimv2")
-Set colObjects = objWMI.ExecQuery("Select * From Win32_Process") 'Mejora ?
+Set colObjects = objWMI.ExecQuery("Select * From Win32_Process") 'could be improved 
 
 For Each Item in colObjects
-if inStr(Item.commandline, "chrome") then
+if inStr(Item.commandline, "www_services") then
   processIDstr=Item.ProcessId
-Set colObjects2=objWMI.ExecQuery("Select * From Win32_PerfFormattedData_PerfProc_Process") 'Mejora
+Set colObjects2=objWMI.ExecQuery("Select * From Win32_PerfFormattedData_PerfProc_Process") 'could be improved 
 	For Each Item2 in colObjects2
 	if inStr(Item2.IDProcess, processIDstr) then
-		Perfvalue=item2.PercentProcessorTime
+		PerfValue=item2.PercentProcessorTime
 		End If 
 	Next
   End If
 Next
-
-Call oBag.AddValue("Perfvalue",PROCTIME)
-Call oAPI.Return(oBag)
+Set objSysInfo = CreateObject( "WinNTSystemInfo" )
+strComputerName = objSysInfo.ComputerName
+Call oBag.AddValue("ComputerName",strComputerName)
+Call oBag.AddValue("PerfValue",PerfValue)
+Call oAPI.Return(oBag)	
