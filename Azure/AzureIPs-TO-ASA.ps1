@@ -10,7 +10,7 @@
 #15 KB
 
 $netnumber=0
-[xml]$xml= Get-Content  C:\Users\XXXX\Desktop\PublicIPs_20140701.xml
+[xml]$xml= Get-Content  C:\Users\olopez\Desktop\PublicIPs_20140701.xml
 $xml.SelectNodes("//AzurePublicIpAddresses/Region/IpRange")| ForEach-Object {
 $subnet=$_.subnet.split("/")
 $netnumber= $netnumber+1
